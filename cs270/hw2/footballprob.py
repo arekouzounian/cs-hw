@@ -1,4 +1,5 @@
 import itertools 
+import random 
 
 def func(b, r): 
     b.sort()
@@ -45,16 +46,46 @@ def find_gain(b, r):
         print("Pair:", pair, "; Gain:", gain_single(pair[0], pair[1]))
 
 
+def gen_pairs(lst1, lst2):
+    if len(lst1) != len(lst2):
+        print('unequal lengths! error!')
+        return 
+    lsts = []
+    for offset in range(len(lst1)):
+        lst = []
+        for i in range(len(lst2)):
+            lst.append((lst1[i], lst2[(i + offset) % len(lst2)]))
+        lsts.append(lst)
+
+    return lsts 
+
+def find_opt(b, r):
+    pairs = gen_pairs(b, r)
+    smallest = 10000000000.0
+    for lst in pairs:
+        smallest = min(smallest, gain_check(lst))
+
+    return smallest 
+
+
+
 def main(): 
     backs = [12, 10, 11, 10, 15]
     recvr = [9, 15, 13, 12, 10]
     
-    ret = func(backs, recvr)
+
+    n = 10
+
+    rand1 = [random.randint(1, 20) for _ in range(n)]
+    rand2 = [random.randint(1, 20) for _ in range(n)]
+    
+    ret = func(rand1, rand2)
     print("Returned list:", ret)
     print("Sum gain:", gain_check(ret))
 
-    find_gain(backs, recvr)
+    print("Optimal gain:", find_opt(rand1, rand2))
 
+    #find_gain(rand1, rand2)
 
 
 if __name__ == '__main__':
