@@ -70,22 +70,23 @@ def find_opt(b, r):
 
 
 def main(): 
-    backs = [12, 10, 11, 10, 15]
-    recvr = [9, 15, 13, 12, 10]
-    
+    rng = int(input("Enter the number of iterations: "))
+    for n in range(1, rng+1):
+        rand1 = [random.randint(1, n) for _ in range(n)]
+        rand2 = [random.randint(1, n) for _ in range(n)]
+        
+        ret = func(rand1, rand2)
+        #print("Returned list:", ret)
+        
+        gain_ours = gain_check(ret)
+        gain_opt = find_opt(rand1, rand2)
 
-    n = 10
+        print("Sum gain:", gain_check(ret))
+        print("Optimal gain:", find_opt(rand1, rand2))
 
-    rand1 = [random.randint(1, 20) for _ in range(n)]
-    rand2 = [random.randint(1, 20) for _ in range(n)]
-    
-    ret = func(rand1, rand2)
-    print("Returned list:", ret)
-    print("Sum gain:", gain_check(ret))
-
-    print("Optimal gain:", find_opt(rand1, rand2))
-
-    #find_gain(rand1, rand2)
+        if gain_ours != gain_opt: 
+            print('Our solution is not optimal.')
+            break
 
 
 if __name__ == '__main__':
